@@ -1,7 +1,7 @@
 export const navigation = [
-  { href: "#features", label: "رفيق في يومك" },
-  { href: "#try", label: "جرّب خطوة" },
-  { href: "#faq", label: "سؤالك عن رفيق" },
+  { href: "#features", label: "مميزات رفيق" },
+  { href: "#try", label: "جرّب الروتين" },
+  { href: "#faq", label: "أسئلة شائعة" },
 ];
 
 export const transcript = [
@@ -81,6 +81,6 @@ export const questions = [
   },
   {
     question: "أقدر أنزّل التطبيق دلوقتي؟",
-    answer: "روابط التحميل لسه مش متاحة على الصفحة. هتلاقيها هنا أول ما نضيفها.",
+    answer: "أيوه، تقدر تحمّل رفيق على أندرويد من زر Google Play في قسم التحميل. نسخة iPhone قريبًا على App Store.",
   },
 ];

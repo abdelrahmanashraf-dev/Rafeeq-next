@@ -19,7 +19,7 @@ export function LandingMotion({ children }: { children: ReactNode }) {
     media.add(
       {
         motion: "(prefers-reduced-motion: no-preference)",
-        pin: "(min-width: 768px) and (min-height: 570px)",
+        pin: "(min-height: 570px)",
         story: "(min-width: 901px) and (min-height: 650px)",
       },
       (context) => {
@@ -115,7 +115,8 @@ export function LandingMotion({ children }: { children: ReactNode }) {
           const destinationBox = () => destination.getBoundingClientRect();
           const rootBox = () => root.getBoundingClientRect();
           const phase = (progress: number) => {
-            root.dataset.reminderPhase = progress <= 0 ? "source" : progress >= 1 ? "destination" : "travel";
+            const nextPhase = progress <= 0 ? "source" : progress >= 1 ? "destination" : "travel";
+            if (root.dataset.reminderPhase !== nextPhase) root.dataset.reminderPhase = nextPhase;
           };
           const reminder = gsap.timeline({
             defaults: { ease: "none" },
@@ -138,20 +139,22 @@ export function LandingMotion({ children }: { children: ReactNode }) {
             width: () => sourceBox().width,
             height: () => sourceBox().height,
             "--reminder-progress": 0,
+            "--reminder-source-font": () => getComputedStyle(source).fontSize,
           }, {
             x: () => destinationBox().left - rootBox().left,
             y: () => destinationBox().top - rootBox().top,
             width: () => destinationBox().width,
             height: () => destinationBox().height,
             "--reminder-progress": 1,
+            "--reminder-source-font": "22px",
             duration: 1,
           }, 0);
           reminder.to(flight.querySelector(".reminder-flight-source"), {
-            opacity: 0, duration: 0.22, ease: "sine.inOut",
-          }, 0.57);
+            opacity: 0, duration: 0.2, ease: "sine.inOut",
+          }, 0.73);
           reminder.to(flight.querySelector(".reminder-flight-destination"), {
-            opacity: 1, duration: 0.22, ease: "sine.inOut",
-          }, 0.57);
+            opacity: 1, duration: 0.2, ease: "sine.inOut",
+          }, 0.8);
         }
 
         if (conditions.story) {

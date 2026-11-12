@@ -38,7 +38,7 @@ export function SiteHeader() {
           }}
         >
           <a className="logo" href="#top" aria-label="رفيق، ارجع لأول الصفحة">
-            رفيق<span>RAFEEQ</span>
+            <img className="brand-logo" src="/rafeeq-logo.svg" width="96" height="57" alt="رفيق" />
           </a>
           <nav aria-label="روابط الصفحة">
             {navigation.map((item) => (

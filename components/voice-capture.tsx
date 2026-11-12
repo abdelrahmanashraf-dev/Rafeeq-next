@@ -18,7 +18,7 @@ function VoiceLane({ recording = false }: { recording?: boolean }) {
               <span key={index} style={{ "--word-height": `${wordHeights[index % wordHeights.length]}%` } as CSSProperties}>
                 {index ? " " : ""}{word}
               </span>
-            )) : line}
+            )) : line.split(" ").map((word, index) => <span className="transcript-word" key={index} style={{ "--word-index": index } as CSSProperties}>{index ? " " : ""}{word}</span>)}
           </span>
         </p>
       ))}
@@ -30,14 +30,14 @@ export function VoiceCapture() {
   return (
     <section id="capture" className="voice-demo" aria-labelledby="capture-title">
       <div className="wrap voice-intro">
-        <h2 id="capture-title">من كلام في بالك<br />لكلام تقدر ترجع له.</h2>
-        <p>اضغط تسجيل واتكلم. رفيق يحوّل صوتك لملاحظة مكتوبة، عشان تلاقي الفكرة حتى بعد ما تنساها.</p>
+        <h2 id="capture-title">سجّل بصوتك.<br />وارجع له مكتوب.</h2>
+        <p>بدل ما تكتب الفكرة، قولها. رفيق يحوّل التسجيل لنص تقدر تقراه وتعدّل عليه.</p>
       </div>
       <div className="voice-track" data-voice-track>
         <div className="wrap voice-scene" data-voice-scene>
           <div className="voice-stage">
             <div className="voice-panel voice-recording" aria-hidden="true">
-              <p className="voice-label">بصوتك</p>
+              <p className="voice-label">تسجيلك الصوتي</p>
               <div className="voice-wave">
                 {bars.map((height, index) => (
                   <i key={index} style={{ height: `${height}%`, "--bar": index } as CSSProperties} />
@@ -46,7 +46,7 @@ export function VoiceCapture() {
               <VoiceLane recording />
             </div>
             <div className="voice-panel voice-transcript">
-              <p className="voice-label">في أفكارك</p>
+              <p className="voice-label">فكرتك مكتوبة</p>
               <VoiceLane />
             </div>
           </div>
@@ -59,9 +59,11 @@ export function VoiceCapture() {
           <h3>قول هتعمل إيه وإمتى.</h3>
           <p>رفيق يحوّل طلبك لتذكير بالميعاد اللي قلته.</p>
         </div>
-        <Phone>
+        <Phone screen="reminder" className="phone-reminder">
+          <div className="reminder-source-slot">
           <div className="reminder-card reminder-source" data-reminder-source>
             <p>فكّرني أكلم الدكتور بكرة الساعة ١٠</p>
+          </div>
           </div>
         </Phone>
       </div>

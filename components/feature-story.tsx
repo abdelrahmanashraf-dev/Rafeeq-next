@@ -1,5 +1,5 @@
 import { features } from "@/lib/content";
-import { AppScreen } from "./phone";
+import { AppScreen, PhoneFrame } from "./phone";
 import { ReminderPreview } from "./reminder-preview";
 
 export function FeatureStory() {
@@ -18,13 +18,13 @@ export function FeatureStory() {
         </div>
         <div className="story-layout">
           <div className="story-preview" aria-hidden="true">
-            <div className="story-phone">
+            <PhoneFrame className="story-phone">
               {features.map((feature, index) => (
                 <div className="story-screen" data-story-screen data-active={index === 0 ? "" : undefined} key={feature.screen}>
                   <AppScreen screen={feature.screen} alt={feature.alt} />
                 </div>
               ))}
-            </div>
+            </PhoneFrame>
           </div>
           <ol className="story-steps" role="list">
             {features.map((feature) => (
@@ -34,9 +34,9 @@ export function FeatureStory() {
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>
                 </div>
-                <div className="story-inline story-phone">
+                <PhoneFrame className="story-inline story-phone">
                   <AppScreen screen={feature.screen} alt={feature.alt} />
-                </div>
+                </PhoneFrame>
               </li>
             ))}
           </ol>
