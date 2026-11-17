@@ -19,6 +19,7 @@ export function LandingMotion({ children }: { children: ReactNode }) {
     media.add(
       {
         motion: "(prefers-reduced-motion: no-preference)",
+        mobile: "(max-width: 767px)",
         pin: "(min-height: 570px)",
         story: "(min-width: 901px) and (min-height: 650px)",
       },
@@ -62,6 +63,12 @@ export function LandingMotion({ children }: { children: ReactNode }) {
 
         if (track && scene) {
           track.setAttribute("data-motion", "");
+          ScrollTrigger.create({
+            trigger: scene,
+            start: "top 45%",
+            end: "bottom top",
+            onToggle: ({ isActive }) => scene.toggleAttribute("data-cue-active", isActive),
+          });
           gsap.set(scene, {
             "--voice-frame": 0,
             "--voice-progress": 0,
@@ -94,16 +101,19 @@ export function LandingMotion({ children }: { children: ReactNode }) {
             },
           });
           if (conditions.pin) voice.to(scene, { "--voice-frame": 1, duration: 0.65, ease: "power1.inOut" }, 0);
-          voice.fromTo(scene, { "--voice-progress": 0 }, { "--voice-progress": 1, duration: 1.14, immediateRender: false }, 0.65);
+          const rowInterval = conditions.mobile ? 0.4 : 0.28;
+          const transcriptionEnd = 0.65 + (transcript.length - 1) * rowInterval + 0.4;
+          voice.fromTo(scene, { "--voice-progress": 0 }, { "--voice-progress": 1, duration: conditions.mobile ? transcriptionEnd - 0.65 : 1.14, immediateRender: false }, 0.65);
           transcript.forEach((_, index) => {
+            const order = conditions.mobile ? transcript.length - 1 - index : index;
             voice.fromTo(scene, { [`--voice-row-${index}`]: 0 }, {
               [`--voice-row-${index}`]: 1,
               duration: 0.4,
               ease: "power1.inOut",
               immediateRender: false,
-            }, 0.65 + index * 0.28);
+            }, 0.65 + order * rowInterval);
           });
-          if (conditions.pin) voice.to(scene, { "--voice-frame": 0.38, duration: 0.36, ease: "power2.inOut" }, 1.79);
+          if (conditions.pin) voice.to(scene, { "--voice-frame": 0.38, duration: 0.36, ease: "power2.inOut" }, Math.max(1.79, transcriptionEnd));
         }
 
         const source = root.querySelector<HTMLElement>("[data-reminder-source]");
@@ -175,6 +185,7 @@ export function LandingMotion({ children }: { children: ReactNode }) {
           root.removeAttribute("data-landing-motion");
           delete root.dataset.reminderPhase;
           track?.removeAttribute("data-motion");
+          scene?.removeAttribute("data-cue-active");
         };
       },
     );

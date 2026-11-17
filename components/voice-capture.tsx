@@ -50,6 +50,25 @@ export function VoiceCapture() {
               <VoiceLane />
             </div>
           </div>
+          <div className="voice-scroll-cue" aria-hidden="true">
+            <svg className="voice-scroll-mouse" viewBox="0 0 40 76" fill="none" stroke="url(#voice-scroll-contrast)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <defs>
+                <linearGradient id="voice-scroll-contrast" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="40" y2="0">
+                  <stop offset="50%" stopColor="var(--ink)" />
+                  <stop offset="50%" stopColor="var(--scroll-cue-right, #fff)" />
+                </linearGradient>
+              </defs>
+              <g className="voice-scroll-body">
+                <path d="M20 3C11 3 6 9.5 6 19v15c0 9.5 5 16 14 16s14-6.5 14-16V19C34 9.5 29 3 20 3Z" />
+                <path d="M20 3v9" opacity=".45" />
+                <path className="voice-scroll-wheel" d="M20 17v7" strokeWidth="3.2" />
+              </g>
+              <g className="voice-scroll-arrows">
+                <path d="m14 58 6 6 6-6" />
+                <path d="m14 66 6 6 6-6" opacity=".45" />
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
       <p className="voice-example">من تسجيلك لملاحظة محفوظة — مثال توضيحي.</p>

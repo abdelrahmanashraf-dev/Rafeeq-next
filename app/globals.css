@@ -418,6 +418,54 @@ h3 {
   --voice-row-2: 0;
   margin-block-start: clamp(40px, 5vw, 64px);
 }
+.voice-scroll-cue {
+  display: none;
+}
+.voice-track[data-motion] .voice-scroll-cue {
+  position: absolute;
+  inset: auto 16px 24px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.voice-scroll-mouse {
+  display: block;
+  width: 34px;
+  height: 65px;
+  flex: none;
+}
+@media (min-width: 768px) {
+  .voice-track[data-motion] .voice-scroll-cue {
+    bottom: calc(24px + (100svh - clamp(22rem, 62svh, 38rem)) / 2 * (1 - var(--voice-frame, 0)));
+  }
+}
+@media (max-width: 767px) {
+  .voice-scroll-cue { --scroll-cue-right: var(--ink); }
+  .voice-scroll-mouse { width: 28px; height: 53px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .voice-scroll-wheel { animation: voice-scroll-wheel 1.8s var(--ease) infinite paused; }
+  .voice-scroll-body { animation: voice-scroll-body 1.8s var(--ease) infinite paused; }
+  .voice-scroll-arrows { animation: voice-scroll-arrows 1.8s var(--ease) infinite paused; }
+  [data-cue-active] .voice-scroll-wheel,
+  [data-cue-active] .voice-scroll-body,
+  [data-cue-active] .voice-scroll-arrows { animation-play-state: running; }
+}
+@keyframes voice-scroll-wheel {
+  0%, 15% { transform: translateY(0); opacity: 1; }
+  70%, 85% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes voice-scroll-body {
+  0%, 100% { transform: translateY(0); }
+  55% { transform: translateY(2px); }
+}
+@keyframes voice-scroll-arrows {
+  0%, 100% { transform: translateY(-2px); opacity: .4; }
+  55% { transform: translateY(2px); opacity: 1; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .voice-transcript .voice-row {
     clip-path: inset(0 0 0 calc((1 - var(--row-progress)) * 100%));
@@ -1868,16 +1916,16 @@ a.store-badge:focus-visible { outline: 3px solid var(--action); outline-offset: 
   }
   .voice-track[data-motion] .voice-recording .voice-lane { visibility: visible; }
   .voice-row { position: absolute; left: 18px; max-width: calc(100% - 36px); padding: 6px 10px; font-size: clamp(15px,4.2vw,19px); }
-  .voice-row:nth-child(1) { top: 23%; }
-  .voice-row:nth-child(2) { top: 47%; }
-  .voice-row:nth-child(3) { top: 71%; }
+  .voice-row:nth-child(1) { top: 23%; --voice-travel: calc(var(--voice-card-height) * .4568); }
+  .voice-row:nth-child(2) { top: 47%; --voice-travel: calc(var(--voice-card-height) * .4952); }
+  .voice-row:nth-child(3) { top: 71%; --voice-travel: calc(var(--voice-card-height) * .5336); }
   .voice-track[data-motion] .voice-recording .voice-row {
-    translate: 0 calc(var(--row-progress) * 30px);
-    opacity: calc(1 - var(--row-progress));
+    translate: 0 calc(var(--row-progress) * var(--voice-travel));
+    opacity: 1;
   }
   .voice-track[data-motion] .voice-transcript .voice-row {
-    translate: 0 calc((1 - var(--row-progress)) * -30px);
-    opacity: var(--row-progress); clip-path: none;
+    translate: 0 calc((1 - var(--row-progress)) * -1 * var(--voice-travel));
+    opacity: 1; clip-path: none;
   }
   .voice-wave { inset: auto 18px 18px; height: 34px; }
   .voice-track[data-motion] .voice-wave { opacity: calc(1 - var(--voice-progress,0) * .75); }
